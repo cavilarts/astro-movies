@@ -1,5 +1,6 @@
 ---
 import '@fontsource-variable/open-sans'
+import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -22,9 +23,12 @@ const { title, meta } = Astro.props;
     <meta name="keywords" content={meta.keywords} />
     <meta name="title" content={meta.title}>
 		<title>{title}</title>
+		<ViewTransitions />
 	</head>
 	<body>
-		<slot />
+		<main class="bg-gradient-to-b from-black from-30% to-violet-500 min-h-screen">
+			<slot />
+		</main>
 	</body>
 </html>
 

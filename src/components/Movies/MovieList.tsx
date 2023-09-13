@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 
 import type { MovieResult } from "../../types/default";
 import Movie from "./Movie.tsx";
+import useDebounce from "../../hooks/useDebounce.ts";
 
 export default function MovieList() {
   const [movies, setMovies] = useState<MovieResult[]>([]);
   const [search, setSearch] = useState<string>("");
+  const debouncedSearch = useDebounce(search, 500);
   const options = {
     method: "GET",
     headers: {
@@ -17,10 +19,10 @@ export default function MovieList() {
 
   useEffect(() => {
     async function loadMovies() {
-      const commposedurl = search
+      const commposedurl = debouncedSearch
         ? `${url}${
             import.meta.env.PUBLIC_MOVIE_DB_MOVIES_SEARCH_PATH
-          }?query=${search}&adult=true`
+          }?query=${debouncedSearch}&adult=true`
         : `${url}${import.meta.env.PUBLIC_MOVIE_DB_MOVIES_PATH}?adult=true`;
       try {
         const response = await fetch(commposedurl, options);
@@ -32,23 +34,24 @@ export default function MovieList() {
       }
     }
     loadMovies();
-  }, [search]);
+  }, [debouncedSearch]);
 
   return (
     <section>
-      <div className="p-5">
+      <div className="p-5 max-w-7xl mx-auto">
         <input
           type="text"
           name="search"
           id="search"
-          className="w-full border border-purple-500 rounded-lg"
+          className="w-full border border-purple-500 rounded-lg p-4 text-xl"
           onChange={(event) =>
             setSearch(event.target.value.split(" ").join(","))
           }
           value={search}
+          placeholder="Search for a movie"
         />
       </div>
-      <section className="flex gap-8 max-w-7xl mx-auto flex-wrap justify-center">
+      <section className="flex gap-8 max-w-7xl mx-auto flex-wrap justify-center mt-8 pb-8">
         {movies &&
           movies.map((movie) => (
             <Movie

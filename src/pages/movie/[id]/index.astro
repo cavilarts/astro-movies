@@ -1,0 +1,69 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import type { MovieDetailsI } from '../../../types/default';
+
+const { id } = Astro.params;
+const options = {
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${import.meta.env.PUBLIC_MOVIE_DB_ACCESS_TOKEN}`,
+  },
+};
+const response = await fetch(`${import.meta.env.PUBLIC_MOVIE_DB_API_URL}/movie/${id}?language=en-US`, options);
+const data: MovieDetailsI = await response.json();
+
+const meta = {
+  title: data.original_title,
+	description: data.overview ?? data.original_title,
+	keywords: data.title,
+}
+---
+<MainLayout title={data.original_title} meta={meta} transition:animate="fade">
+  <section>
+    <div class="relative">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent from-65% to-black"></div>
+      <img
+        src={`${import.meta.env.PUBLIC_MOVIE_DB_IMAGE_BASE_URL}/original/${data.backdrop_path}`}
+        alt={data.original_title}
+        class="w-full h-screen object-cover hidden md:block"
+      />
+      <img
+        src={`${import.meta.env.PUBLIC_MOVIE_DB_IMAGE_BASE_URL}/w500/${data.poster_path}`}
+        alt={data.original_title}
+        class="w-full h-screen object-cover md:hidden"
+      />
+      <div class="absolute bottom-0 p-8 text-white flex flex-col justify-between w-full">
+        <div class="flex flex-col gap-4">
+          <h1 class="font-bold text-4xl py-4 drop-shadow-[0_1.2px_2.2px_rgba(0,0,0,0.9)]">{data.original_title}</h1>
+          <p class="">{data.tagline}</p>
+          <div class="mt-4 flex gap-2 flex-wrap">
+            {data.genres && data.genres.map((genre) => (
+              <span class="flex bg-violet-900 rounded-xl px-3 py-1 text-sm font-semibold text-white mr-2 items-center">
+                {genre.name}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div class="flex mt-4 flex-wrap gap-2">
+        {data.production_companies && data.production_companies.filter((company) => !!company.name).map((company) => 
+          (
+          <span class="flex bg-white rounded-xl px-3 py-1 text-sm font-semibold text-black mr-2 items-center">
+            {company.name}
+          </span>
+        ))}
+      </div>
+      </div>
+    </div>
+  </section>
+  <section class="bg-black text-white p-10">
+    <article class="max-w-7xl mx-auto flex gap-8">
+      <p>
+        {data.overview && data.overview}
+      </p>
+      <div>
+
+      </div>
+    </article>
+  </section>
+</MainLayout>
