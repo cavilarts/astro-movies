@@ -1,0 +1,35 @@
+---
+import '@fontsource-variable/open-sans'
+
+interface Props {
+  title: string;
+  meta: {
+    title: string;
+    description: string;
+    keywords: string;
+  };
+}
+
+const { title, meta } = Astro.props;
+---
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+    <meta name="description" content={meta.description} />
+    <meta name="keywords" content={meta.keywords} />
+    <meta name="title" content={meta.title}>
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style>
+	body {
+		font-family: 'Open Sans Variable', sans-serif;
+	}
+</style>
