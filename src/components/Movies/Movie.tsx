@@ -7,7 +7,7 @@ export default function Movie({
 }: MovieResult) {
   return (
     <a href={`/movie/${id}`} className="w-full md:w-[220px]">
-      <article className="md:w-[220px] w-full relative rounded-md">
+      <article className="md:w-[220px] w-full relative rounded-md overflow-hidden">
         <img
           src={`${
             import.meta.env.PUBLIC_MOVIE_DB_IMAGE_BASE_URL
