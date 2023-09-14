@@ -1,4 +1,5 @@
 import type { MovieResult } from "../../types/default";
+import LikeButton from "../Like/LikeButton";
 
 export default function Movie({
   poster_path,
@@ -8,6 +9,9 @@ export default function Movie({
   return (
     <a href={`/movie/${id}`} className="w-full md:w-[220px] p-6 md:p-0">
       <article className="md:w-[220px] w-full relative rounded-md overflow-hidden border border-white">
+        <div className="absolute right-2 top-2">
+          <LikeButton id={id} />
+        </div>
         <img
           src={`${
             import.meta.env.PUBLIC_MOVIE_DB_IMAGE_BASE_URL

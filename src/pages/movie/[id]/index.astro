@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../../layouts/MainLayout.astro';
 import type { MovieDetailsI } from '../../../types/default';
+import LikeButton from '../../../components/Like/LikeButton';
 
 const { id } = Astro.params;
 const options = {
@@ -12,7 +13,6 @@ const options = {
 };
 const response = await fetch(`${import.meta.env.PUBLIC_MOVIE_DB_API_URL}/movie/${id}?language=en-US`, options);
 const data: MovieDetailsI = await response.json();
-
 const meta = {
   title: data.original_title,
 	description: data.overview ?? data.original_title,
@@ -35,7 +35,10 @@ const meta = {
       />
       <div class="absolute bottom-0 p-8 text-white flex flex-col justify-between w-full">
         <div class="flex flex-col gap-4">
-          <h1 class="font-bold text-4xl py-4 drop-shadow-[0_1.2px_2.2px_rgba(0,0,0,0.9)]">{data.original_title}</h1>
+          <div class="flex gap-4 align-middle items-center">
+            <h1 class="font-bold text-4xl py-4 drop-shadow-[0_1.2px_2.2px_rgba(0,0,0,0.9)]">{data.original_title}</h1>
+            <LikeButton id={data.id} client:visible />
+          </div>
           <p class="">{data.tagline}</p>
           <div class="mt-4 flex gap-2 flex-wrap">
             {data.genres && data.genres.map((genre) => (
