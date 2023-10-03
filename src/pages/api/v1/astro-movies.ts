@@ -53,10 +53,13 @@ export async function POST({ params, request }: APIContext) {
 
     console.log("moviesResponses", moviesResponses);
 
-    return new Response(JSON.stringify(moviesResponses), {
-      headers: { "content-type": "application/json; charset=UTF-8" },
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify(moviesResponses.filter((movie) => !!movie)),
+      {
+        headers: { "content-type": "application/json; charset=UTF-8" },
+        status: 200,
+      }
+    );
   }
 
   return new Response(
