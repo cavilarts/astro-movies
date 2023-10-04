@@ -22,7 +22,6 @@ export async function POST({ params, request }: APIContext) {
         },
       ],
     });
-    console.log("chat", JSON.stringify(chat.choices));
     const movies = chat.choices
       .map((choice) =>
         choice.message.content?.split(",").map((movie) => {

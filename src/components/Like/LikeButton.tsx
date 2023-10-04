@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import pkg from "react-icons/ai";
-
-const { AiTwotoneHeart, AiOutlineHeart } = pkg;
+import { AiTwotoneHeart, AiOutlineHeart } from "react-icons/ai";
 
 export interface LikeButtonProps {
   id: number;
