@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AiTwotoneHeart } from "react-icons/ai";
+import { AiTwotoneHeart, AiOutlineHeart } from "react-icons/ai";
 
 export interface LikeButtonProps {
   id: number;
@@ -36,7 +36,8 @@ export default function LikeButton({ id }: LikeButtonProps) {
       className={`text-5xl ${liked ? "text-red-500" : "text-white"}`}
       onClick={handleLike}
     >
-      <AiTwotoneHeart />
+      {liked && <AiTwotoneHeart />}
+      {!liked && <AiOutlineHeart />}
     </button>
   );
 }
