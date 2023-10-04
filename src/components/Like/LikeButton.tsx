@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { AiTwotoneHeart, AiOutlineHeart } from "react-icons/ai";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons/faHeart";
 
 export interface LikeButtonProps {
   id: number;
@@ -33,11 +34,10 @@ export default function LikeButton({ id }: LikeButtonProps) {
 
   return (
     <button
-      className={`text-5xl ${liked ? "text-red-500" : "text-white"}`}
+      className={`text-3xl ${liked ? "text-red-500" : "text-white"}`}
       onClick={handleLike}
     >
-      {liked && <AiTwotoneHeart />}
-      {!liked && <AiOutlineHeart />}
+      <FontAwesomeIcon icon={faHeart} />
     </button>
   );
 }

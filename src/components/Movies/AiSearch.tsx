@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { IoMdSend } from "react-icons/io";
 import Movie from "./Movie";
 import type { MovieResult } from "../../types/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 export interface AiSearchProps {
   title: string;
@@ -62,7 +63,7 @@ export default function AiSearch({ title, description }: AiSearchProps) {
           className="text-emerald-300 font-bold py-2 px-4 rounded-full text-xl"
           onClick={onSearch}
         >
-          <IoMdSend />
+          <FontAwesomeIcon icon={faPaperPlane} />
         </button>
       </div>
       {loading && <p className="text-white">Loading...</p>}

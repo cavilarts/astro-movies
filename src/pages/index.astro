@@ -3,6 +3,13 @@ import HomeLayout from "../layouts/MainLayout.astro";
 import MovieList from "../components/Movies/MovieList";
 
 const title = "Astro Movies";
+
+export async function getStaticPaths() {
+	return {
+		paths: [],
+		fallback: "blocking",
+	};
+}
 ---
 
 <HomeLayout title={title} meta={{

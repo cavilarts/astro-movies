@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { TbLoader2 } from "react-icons/tb";
-import { BsSearch } from "react-icons/bs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import type { MovieResult } from "../../types/default";
 import Movie from "./Movie.tsx";
 import useDebounce from "../../hooks/useDebounce.ts";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 export default function MovieList() {
   const [movies, setMovies] = useState<MovieResult[]>([]);
@@ -95,7 +95,7 @@ export default function MovieList() {
             placeholder="Search for a movie"
           />
           <span className="text-xl font-bold text-white align-middle justify-end px-2">
-            <BsSearch />
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
           </span>
         </div>
       </div>
@@ -104,7 +104,7 @@ export default function MovieList() {
           dataLength={movies.length}
           next={loadMoreMovies}
           hasMore={currentPage < totalPages}
-          loader={<TbLoader2 />}
+          loader={<FontAwesomeIcon icon="loader" />}
           className="flex gap-8 max-w-7xl mx-auto flex-wrap justify-center mt-8 pb-8"
         >
           {movies &&
