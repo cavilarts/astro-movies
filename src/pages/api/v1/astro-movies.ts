@@ -5,8 +5,6 @@ export async function POST({ params, request }: APIContext) {
   const body = await request.json();
   const prompt = body.prompt;
 
-  console.log("prompt", prompt);
-
   if (prompt) {
     const openAI = new OpenAI({
       apiKey: process.env.PUBLIC_AI_API_KEY,
@@ -17,22 +15,28 @@ export async function POST({ params, request }: APIContext) {
       messages: [
         {
           role: "user",
-          content: `Could you please recommend me a movie with the topic: ${prompt}? in any genre and any language. please just provide a name or a comma separated list of names whitout spaces and quotes.`,
+          content: `please generate a list of 20 movies with relation to: ${body.prompt}. please format your response to be comma separated, without numeration and remove the release date. just the list without other message. sort the result from the more acurrate to the less please`,
           name: "User",
         },
       ],
     });
-    const movies = chat.choices
+
+    const aimovies = chat.choices
       .map((choice) =>
-        choice.message.content?.split(",").map((movie) => {
-          const url = import.meta.env.PUBLIC_MOVIE_DB_API_URL;
-          return `${url}${
-            import.meta.env.PUBLIC_MOVIE_DB_MOVIES_SEARCH_PATH
-          }?query=${movie.trim()}&include_adult=false&page=1`;
-        })
+        choice.message.content?.split(",").map((movie) => movie.trim())
       )
       .flatMap((movie) => movie)
       .filter((movie) => movie);
+
+    const movies = aimovies
+      .map((choice) => {
+        const url = import.meta.env.PUBLIC_MOVIE_DB_API_URL;
+        return `${url}${
+          import.meta.env.PUBLIC_MOVIE_DB_MOVIES_SEARCH_PATH
+        }?query=${choice}&include_adult=false&page=1`;
+      })
+      .filter((movie) => movie);
+
     const options = {
       method: "GET",
       headers: {
@@ -49,8 +53,6 @@ export async function POST({ params, request }: APIContext) {
           )
       )
     );
-
-    console.log("moviesResponses", moviesResponses);
 
     return new Response(
       JSON.stringify(moviesResponses.filter((movie) => !!movie)),

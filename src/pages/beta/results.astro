@@ -1,0 +1,53 @@
+---
+
+import Movie from '../../components/Movies/Movie';
+import HomeLayout from '../../layouts/MainLayout.astro';
+import type { MovieResult } from '../../types/default';
+import SearchForm from '../../components/Search/SearchForm';
+
+const search = Astro.url.searchParams.get("search") ?? "";
+const title = `Search results for "${search}"`;
+const description = `Search results for "${search}"`;
+const keywords = `search, ${search}`;
+const url = new URL(Astro.url);
+const baseUrl = url.origin;
+const loadingOptions = new Array(20).fill(null);
+
+let loading = true;
+let movies: MovieResult[] = [];
+
+const response = await fetch("http://localhost:4321/api/v1/astro-movies", {
+  method: "POST",
+  body: JSON.stringify({ prompt: search }),
+});
+
+movies = await response.json();
+
+loading = false;
+---
+
+<HomeLayout title={title} meta={{
+	title: title,
+	description: description,
+	keywords: keywords,
+}}>
+  <section class="p-8" transition:animate="fade">
+    <div class="w-full max-w-7xl flex flex-col md:flex-row items-center gap-2 mx-auto overflow-hidden">
+      <a href={`${baseUrl}/beta`} class="p-4">
+        <h1 class="text-white font-openSans font-extrabold text-2xl md:text-4xl md:min-w-[231px]">Astro Movies</h1>
+      </a>
+      <SearchForm search={search} />
+    </div>
+    {loading && (
+      <div>Loading...</div>
+    )}
+    <section class="flex gap-8 max-w-7xl mx-auto flex-wrap justify-start mt-8 pb-8">
+        {loading && loadingOptions.map(() => (
+          <article class="md:w-[220px] h-[340px] w-full relative rounded-md overflow-hidden border border-white animate-pulse bg-slate-500"></article>
+        ))}
+        {movies.map((movie: MovieResult) => (
+          <Movie {...movie} />
+        ))}
+      </section>
+  </section>
+</HomeLayout>

@@ -1,6 +1,6 @@
 ---
 import HomeLayout from '../../layouts/MainLayout.astro';
-import AiSearch from '../../components/Movies/AiSearch';
+import SearchForm from '../../components/Search/SearchForm';
 
 const title = 'Astro Movies';
 const description = 'Find your next movie to watch using the power of AI. Simply provide a prompt, and enjoy the results.';
@@ -11,5 +11,11 @@ const keywords = "AI, Movies, Search, Movie Finder";
 	description: description,
 	keywords: keywords,
 }}>
-  <AiSearch client:visible title={title} description={description} />
+<section class="w-full h-screen flex flex-col justify-center items-center max-w-7xl mx-auto p-8 text-center">
+	<h1 class="text-white font-openSans font-extrabold text-5xl pb-6">
+		{title}
+	</h1>
+	<p class="text-white pb-10">{description}</p>
+	<SearchForm />
+	</section>
 </HomeLayout>
