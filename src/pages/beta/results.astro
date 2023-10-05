@@ -16,7 +16,7 @@ const loadingOptions = new Array(20).fill(null);
 let loading = true;
 let movies: MovieResult[] = [];
 
-const response = await fetch("http://localhost:4321/api/v1/astro-movies", {
+const response = await fetch(`${baseUrl}/api/v1/astro-movies`, {
   method: "POST",
   body: JSON.stringify({ prompt: search }),
 });
