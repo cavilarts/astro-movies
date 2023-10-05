@@ -8,7 +8,7 @@ export default function Movie({
 }: MovieResult) {
   return (
     <a href={`/movie/${id}`} className="w-full md:w-[220px] p-6 md:p-0">
-      <article className="md:w-[220px] w-full relative rounded-md overflow-hidden border border-white">
+      <article className="md:w-[230px] w-full relative rounded-md overflow-hidden border border-white">
         <div className="absolute right-2 top-2">
           <LikeButton id={id} />
         </div>

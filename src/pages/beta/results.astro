@@ -1,9 +1,8 @@
 ---
 
-import Movie from '../../components/Movies/Movie';
 import HomeLayout from '../../layouts/MainLayout.astro';
-import type { MovieResult } from '../../types/default';
 import SearchForm from '../../components/Search/SearchForm';
+import AiMovieList from '../../components/Movies/AiMovieList';
 
 const search = Astro.url.searchParams.get("search") ?? "";
 const title = `Search results for "${search}"`;
@@ -11,19 +10,7 @@ const description = `Search results for "${search}"`;
 const keywords = `search, ${search}`;
 const url = new URL(Astro.url);
 const baseUrl = url.origin;
-const loadingOptions = new Array(20).fill(null);
 
-let loading = true;
-let movies: MovieResult[] = [];
-
-const response = await fetch(`${baseUrl}/api/v1/astro-movies`, {
-  method: "POST",
-  body: JSON.stringify({ prompt: search }),
-});
-
-movies = await response.json();
-
-loading = false;
 ---
 
 <HomeLayout title={title} meta={{
@@ -38,16 +25,5 @@ loading = false;
       </a>
       <SearchForm search={search} />
     </div>
-    {loading && (
-      <div>Loading...</div>
-    )}
-    <section class="flex gap-8 max-w-7xl mx-auto flex-wrap justify-start mt-8 pb-8">
-        {loading && loadingOptions.map(() => (
-          <article class="md:w-[220px] h-[340px] w-full relative rounded-md overflow-hidden border border-white animate-pulse bg-slate-500"></article>
-        ))}
-        {movies.map((movie: MovieResult) => (
-          <Movie {...movie} />
-        ))}
-      </section>
-  </section>
+    <AiMovieList client:visible search={search} baseUrl={baseUrl} />
 </HomeLayout>
