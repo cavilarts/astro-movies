@@ -7,7 +7,7 @@ export interface SearchFormProps {
 
 export default function SearchForm({ search = "" }: SearchFormProps) {
   return (
-    <form action="/beta/results" className="flex bg-white rounded-full w-full">
+    <form action="/results" className="flex bg-white rounded-full w-full">
       <input
         name="search"
         autoComplete="off"

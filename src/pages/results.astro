@@ -1,8 +1,8 @@
 ---
 
-import HomeLayout from '../../layouts/MainLayout.astro';
-import SearchForm from '../../components/Search/SearchForm';
-import AiMovieList from '../../components/Movies/AiMovieList';
+import HomeLayout from '../layouts/MainLayout.astro';
+import SearchForm from '../components/Search/SearchForm';
+import AiMovieList from '../components/Movies/AiMovieList';
 
 const search = Astro.url.searchParams.get("search") ?? "";
 const title = `Search results for "${search}"`;
@@ -20,7 +20,7 @@ const baseUrl = url.origin;
 }}>
   <section class="p-8" transition:animate="fade">
     <div class="w-full max-w-7xl flex flex-col md:flex-row items-center gap-2 mx-auto overflow-hidden">
-      <a href={`${baseUrl}/beta`} class="p-4">
+      <a href={`${baseUrl}/`} class="p-4">
         <h1 class="text-white font-openSans font-extrabold text-2xl md:text-4xl md:min-w-[231px]">Astro Movies</h1>
       </a>
       <SearchForm search={search} />

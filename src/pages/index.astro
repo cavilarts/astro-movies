@@ -1,21 +1,25 @@
 ---
-import HomeLayout from "../layouts/MainLayout.astro";
-import MovieList from "../components/Movies/MovieList";
+import HomeLayout from '../layouts/MainLayout.astro';
+import SearchForm from '../components/Search/SearchForm';
 
-const title = "Astro Movies";
-
-export async function getStaticPaths() {
-	return {
-		paths: [],
-		fallback: "blocking",
-	};
-}
+const title = 'Astro Movies';
+const description = 'Find your next movie to watch using the power of AI. Simply provide a prompt, and enjoy the results.';
+const keywords = "AI, Movies, Search, Movie Finder";
 ---
-
 <HomeLayout title={title} meta={{
 	title: title,
-	description: title,
-	keywords: title,
+	description: description,
+	keywords: keywords,
 }}>
-	<MovieList client:load />
+<section class="w-full h-screen flex flex-col justify-center items-center max-w-7xl mx-auto p-8 text-center">
+	<h1 class="text-white font-openSans font-extrabold text-5xl pb-6">
+		{title}
+	</h1>
+	<p class="text-white pb-10">{description}</p>
+	<SearchForm />
+	<div class="mt-8">
+		<span class="block mb-4 text-white font-bold">Or</span>
+		<a href="/catalog" class=" bg-emerald-300 p-4 text-white block rounded-full font-bold uppercase">Check the full catalog</a>
+	</div>
+	</section>
 </HomeLayout>
