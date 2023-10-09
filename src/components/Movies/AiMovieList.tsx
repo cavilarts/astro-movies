@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { MovieResult } from "../../types/default";
+import { OpenAI } from "openai";
 
 import Movie from "./Movie";
 
@@ -16,14 +17,32 @@ export default function AiMovieList({ search, baseUrl }: AiMovieListProps) {
   async function getMovieNames() {
     setLoading(true);
     try {
-      const response = await fetch(`${baseUrl}/api/v1/astro-movies`, {
-        method: "POST",
-        body: JSON.stringify({ prompt: search }),
+      const openAI = new OpenAI({
+        apiKey: import.meta.env.PUBLIC_AI_API_KEY,
+        dangerouslyAllowBrowser: true,
       });
 
-      const parsedResponse = await response.json();
+      const chat = await openAI.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content: `please generate a list of 20 movies with relation to: ${search}. please format your response to be comma separated, without numeration and remove the release date. just the list without other message. sort the result from the more acurrate to the less. do not include any date, please`,
+            name: "User",
+          },
+        ],
+      });
 
-      getMovies(parsedResponse);
+      const aimovies = chat.choices
+        .map((choice: any) =>
+          choice.message.content
+            ?.split(",")
+            .map((movie: string) => movie.trim())
+        )
+        .flatMap((movie) => movie)
+        .filter((movie) => movie);
+
+      getMovies(aimovies);
     } catch (error) {
       console.error(error);
     }
